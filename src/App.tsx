@@ -1,34 +1,22 @@
 import React, { useState } from 'react';
-import { Dashboard } from './components/Dashboard';
-import { LeadManagement } from './components/LeadManagement';
-import { DropReport } from './components/DropReport';
-import { VoicemailCampaign } from './components/VoicemailCampaign';
-import { CampTelethon } from './components/CampTelethon';
-import { Scripts } from './components/Scripts';
-import { Reports } from './components/Reports';
+import { TrialConversionTracker } from './components/TrialConversionTracker';
+import { AutomatedScripts } from './components/AutomatedScripts';
+import { AutomatedAnalytics } from './components/AutomatedAnalytics';
 import { Sidebar } from './components/Sidebar';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('tracker');
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'dashboard':
-        return <Dashboard />;
-      case 'leads':
-        return <LeadManagement />;
-      case 'drop-report':
-        return <DropReport />;
-      case 'voicemail':
-        return <VoicemailCampaign />;
-      case 'camp-telethon':
-        return <CampTelethon />;
+      case 'tracker':
+        return <TrialConversionTracker />;
       case 'scripts':
-        return <Scripts />;
-      case 'reports':
-        return <Reports />;
+        return <AutomatedScripts />;
+      case 'analytics':
+        return <AutomatedAnalytics />;
       default:
-        return <Dashboard />;
+        return <TrialConversionTracker />;
     }
   };
 
