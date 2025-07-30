@@ -16,73 +16,20 @@ export const LeadManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const leads = [
-    {
-      id: 1,
-      name: 'Carissa Flores',
-      email: 'carissa.flores@email.com',
-      phone: '(555) 123-4567',
-      student: 'Emma Flores',
-      age: 7,
-      action: 'Called and Answered',
-      details: 'Accepted new policies; scheduled a trial class for Monday, 26th',
-      status: 'completed',
-      date: '08/21/2024',
-      priority: 'high'
-    },
-    {
-      id: 2,
-      name: 'Kari Hooley',
-      email: 'kari.hooley@email.com',
-      phone: '(555) 234-5678',
-      student: 'Jake Hooley',
-      age: 5,
-      action: 'Left Voicemail',
-      details: 'Logged in & accepted new policy; follow-up email sent',
-      status: 'pending',
-      date: '08/21/2024',
-      priority: 'medium'
-    },
-    {
-      id: 3,
-      name: 'Jenna Mullen',
-      email: 'jenna.mullen@email.com',
-      phone: '(555) 345-6789',
-      student: 'Sarah Mullen',
-      age: 6,
-      action: 'Bad Number, Sent Email',
-      details: 'Accepted policy, phone number wrong; follow-up email sent',
-      status: 'pending',
-      date: '08/21/2024',
-      priority: 'low'
-    },
-    {
-      id: 4,
-      name: 'Stacey Ritchie',
-      email: 'stacey.ritchie@email.com',
-      phone: '(555) 456-7890',
-      student: 'Olivia Ritchie',
-      age: 8,
-      action: 'Enrollment/Payment',
-      details: 'Enrolled Olivia Ritchie; online payment $86.25',
-      status: 'needs-contact',
-      date: '08/21/2024',
-      priority: 'high'
-    },
-    {
-      id: 5,
-      name: 'Brianne Plastow',
-      email: 'brianne.plastow@gmail.com',
-      phone: '623-760-4366',
-      student: 'Cora Giles',
-      age: 3,
-      action: 'Free Trial Form',
-      details: 'New lead from interest form',
-      status: 'new',
-      date: '08/21/2024',
-      priority: 'high'
-    }
-  ];
+  // TODO: Replace with API calls to fetch leads data
+  const leads: Array<{
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    student: string;
+    age: number;
+    action: string;
+    details: string;
+    status: 'completed' | 'pending' | 'needs-contact' | 'new';
+    date: string;
+    priority: 'high' | 'medium' | 'low';
+  }> = [];
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -152,86 +99,102 @@ export const LeadManagement: React.FC = () => {
 
       {/* Leads Table */}
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-slate-50 border-b border-slate-200">
-              <tr>
-                <th className="text-left p-4 font-semibold text-slate-700">Lead</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Contact</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Student</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Last Action</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Status</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Priority</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredLeads.map((lead) => (
-                <tr key={lead.id} className="border-b border-slate-100 hover:bg-slate-50">
-                  <td className="p-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="bg-blue-100 p-2 rounded-full">
-                        <User className="h-4 w-4 text-blue-600" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-slate-800">{lead.name}</p>
-                        <p className="text-sm text-slate-600">{lead.date}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center space-x-2">
-                        <Mail className="h-4 w-4 text-slate-400" />
-                        <span className="text-sm text-slate-600">{lead.email}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Phone className="h-4 w-4 text-slate-400" />
-                        <span className="text-sm text-slate-600">{lead.phone}</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <div>
-                      <p className="font-medium text-slate-800">{lead.student}</p>
-                      <p className="text-sm text-slate-600">{lead.age} years old</p>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <div>
-                      <p className="font-medium text-slate-800">{lead.action}</p>
-                      <p className="text-sm text-slate-600">{lead.details}</p>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(lead.status)}`}>
-                      {lead.status.replace('-', ' ').toUpperCase()}
-                    </span>
-                  </td>
-                  <td className="p-4">
-                    <div className="flex items-center space-x-2">
-                      <div className={`w-3 h-3 rounded-full ${getPriorityColor(lead.priority)}`}></div>
-                      <span className="text-sm text-slate-600 capitalize">{lead.priority}</span>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <div className="flex space-x-2">
-                      <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
-                        <Phone className="h-4 w-4" />
-                      </button>
-                      <button className="p-2 text-green-600 hover:bg-green-50 rounded-lg">
-                        <Mail className="h-4 w-4" />
-                      </button>
-                      <button className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg">
-                        <Calendar className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </td>
+        {filteredLeads.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-slate-50 border-b border-slate-200">
+                <tr>
+                  <th className="text-left p-4 font-semibold text-slate-700">Lead</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Contact</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Student</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Last Action</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Status</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Priority</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {filteredLeads.map((lead) => (
+                  <tr key={lead.id} className="border-b border-slate-100 hover:bg-slate-50">
+                    <td className="p-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="bg-blue-100 p-2 rounded-full">
+                          <User className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-slate-800">{lead.name}</p>
+                          <p className="text-sm text-slate-600">{lead.date}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <div className="space-y-1">
+                        <div className="flex items-center space-x-2">
+                          <Mail className="h-4 w-4 text-slate-400" />
+                          <span className="text-sm text-slate-600">{lead.email}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Phone className="h-4 w-4 text-slate-400" />
+                          <span className="text-sm text-slate-600">{lead.phone}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <div>
+                        <p className="font-medium text-slate-800">{lead.student}</p>
+                        <p className="text-sm text-slate-600">{lead.age} years old</p>
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <div>
+                        <p className="font-medium text-slate-800">{lead.action}</p>
+                        <p className="text-sm text-slate-600">{lead.details}</p>
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(lead.status)}`}>
+                        {lead.status.replace('-', ' ').toUpperCase()}
+                      </span>
+                    </td>
+                    <td className="p-4">
+                      <div className="flex items-center space-x-2">
+                        <div className={`w-3 h-3 rounded-full ${getPriorityColor(lead.priority)}`}></div>
+                        <span className="text-sm text-slate-600 capitalize">{lead.priority}</span>
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <div className="flex space-x-2">
+                        <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                          <Phone className="h-4 w-4" />
+                        </button>
+                        <button className="p-2 text-green-600 hover:bg-green-50 rounded-lg">
+                          <Mail className="h-4 w-4" />
+                        </button>
+                        <button className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg">
+                          <Calendar className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <Users className="h-12 w-12 text-slate-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-slate-600 mb-2">No leads found</h3>
+            <p className="text-slate-500 mb-4">
+              {searchTerm || filterStatus !== 'all' 
+                ? 'Try adjusting your search or filter criteria' 
+                : 'Add your first lead to get started'}
+            </p>
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2 mx-auto">
+              <Plus className="h-4 w-4" />
+              Add Lead
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Summary Cards */}

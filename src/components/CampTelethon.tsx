@@ -15,33 +15,34 @@ import {
 export const CampTelethon: React.FC = () => {
   const [activeCamp, setActiveCamp] = useState('winter');
 
+  // TODO: Replace with API calls to fetch camp statistics
   const campStats = {
     winter: {
-      totalCalls: 156,
-      conversions: 23,
-      revenue: 3450,
-      conversionRate: 14.7,
-      avgRevenue: 150
+      totalCalls: 0,
+      conversions: 0,
+      revenue: 0,
+      conversionRate: 0,
+      avgRevenue: 0
     },
     summer: {
       totalCalls: 0,
       conversions: 0,
       revenue: 0,
       conversionRate: 0,
-      avgRevenue: 175
+      avgRevenue: 0
     }
   };
 
   const promoOffers = {
     winter: {
-      code: 'THANKS15',
+      code: 'WINTER15',
       discount: '15% off',
       description: 'Winter Camp Early Bird Special',
-      expires: 'Today Only',
+      expires: 'Limited Time',
       eligibility: 'All families'
     },
     summer: {
-      code: 'FLEXIBLE2024',
+      code: 'SUMMER2024',
       discount: 'Early Bird Pricing',
       description: 'Flexible Prepaid Summer Camp',
       expires: 'March 1st deadline',
@@ -49,44 +50,16 @@ export const CampTelethon: React.FC = () => {
     }
   };
 
-  const recentCalls = [
-    {
-      family: 'Thompson Family',
-      student: 'Mia Thompson',
-      outcome: 'enrolled',
-      weeks: 2,
-      revenue: 280,
-      time: '2:30 PM',
-      notes: 'Enrolled for both Winter Break weeks'
-    },
-    {
-      family: 'Rodriguez Family',
-      student: 'Carlos Rodriguez',
-      outcome: 'interested',
-      weeks: 1,
-      revenue: 0,
-      time: '2:15 PM',
-      notes: 'Requested callback tomorrow'
-    },
-    {
-      family: 'Chen Family',
-      student: 'Lily Chen',
-      outcome: 'enrolled',
-      weeks: 1,
-      revenue: 140,
-      time: '2:00 PM',
-      notes: 'Used THANKS15 promo code'
-    },
-    {
-      family: 'Anderson Family',
-      student: 'Jake Anderson',
-      outcome: 'declined',
-      weeks: 0,
-      revenue: 0,
-      time: '1:45 PM',
-      notes: 'Schedule conflict during Winter Break'
-    }
-  ];
+  // TODO: Replace with API calls to fetch recent camp calls
+  const recentCalls: Array<{
+    family: string;
+    student: string;
+    outcome: 'enrolled' | 'interested' | 'declined';
+    weeks: number;
+    revenue: number;
+    time: string;
+    notes: string;
+  }> = [];
 
   const getOutcomeColor = (outcome: string) => {
     switch (outcome) {
@@ -280,52 +253,64 @@ export const CampTelethon: React.FC = () => {
           <h3 className="text-lg font-semibold text-slate-800">Recent Campaign Calls</h3>
         </div>
         
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-slate-50 border-b border-slate-200">
-              <tr>
-                <th className="text-left p-4 font-semibold text-slate-700">Family</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Student</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Outcome</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Weeks</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Revenue</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Time</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Notes</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentCalls.map((call, index) => (
-                <tr key={index} className="border-b border-slate-100 hover:bg-slate-50">
-                  <td className="p-4">
-                    <p className="font-medium text-slate-800">{call.family}</p>
-                  </td>
-                  <td className="p-4">
-                    <p className="text-slate-800">{call.student}</p>
-                  </td>
-                  <td className="p-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getOutcomeColor(call.outcome)}`}>
-                      {call.outcome.toUpperCase()}
-                    </span>
-                  </td>
-                  <td className="p-4">
-                    <p className="text-slate-800">{call.weeks}</p>
-                  </td>
-                  <td className="p-4">
-                    <p className="font-medium text-slate-800">
-                      {call.revenue > 0 ? `$${call.revenue}` : '-'}
-                    </p>
-                  </td>
-                  <td className="p-4">
-                    <p className="text-slate-600">{call.time}</p>
-                  </td>
-                  <td className="p-4">
-                    <p className="text-sm text-slate-600">{call.notes}</p>
-                  </td>
+        {recentCalls.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-slate-50 border-b border-slate-200">
+                <tr>
+                  <th className="text-left p-4 font-semibold text-slate-700">Family</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Student</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Outcome</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Weeks</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Revenue</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Time</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Notes</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {recentCalls.map((call, index) => (
+                  <tr key={index} className="border-b border-slate-100 hover:bg-slate-50">
+                    <td className="p-4">
+                      <p className="font-medium text-slate-800">{call.family}</p>
+                    </td>
+                    <td className="p-4">
+                      <p className="text-slate-800">{call.student}</p>
+                    </td>
+                    <td className="p-4">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getOutcomeColor(call.outcome)}`}>
+                        {call.outcome.toUpperCase()}
+                      </span>
+                    </td>
+                    <td className="p-4">
+                      <p className="text-slate-800">{call.weeks}</p>
+                    </td>
+                    <td className="p-4">
+                      <p className="font-medium text-slate-800">
+                        {call.revenue > 0 ? `$${call.revenue}` : '-'}
+                      </p>
+                    </td>
+                    <td className="p-4">
+                      <p className="text-slate-600">{call.time}</p>
+                    </td>
+                    <td className="p-4">
+                      <p className="text-sm text-slate-600">{call.notes}</p>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <Calendar className="h-12 w-12 text-slate-300 mx-auto mb-4" />
+            <h4 className="text-lg font-medium text-slate-600 mb-2">No recent calls</h4>
+            <p className="text-slate-500 mb-4">Start making calls to see campaign results here</p>
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2 mx-auto">
+              <Phone className="h-4 w-4" />
+              Start Calling
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

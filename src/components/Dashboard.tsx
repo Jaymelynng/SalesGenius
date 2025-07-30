@@ -11,19 +11,21 @@ import {
 } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
+  // TODO: Replace with API calls to fetch real data
   const stats = [
-    { label: 'Free Trials Scheduled Today', value: '6', icon: Calendar, color: 'from-blue-500 to-blue-600' },
-    { label: 'Pending Follow-ups', value: '5', icon: Clock, color: 'from-orange-500 to-orange-600' },
-    { label: 'Successful Voicemails', value: '311', icon: Phone, color: 'from-green-500 to-green-600' },
-    { label: 'Total Inactive Accounts', value: '352', icon: Users, color: 'from-purple-500 to-purple-600' },
+    { label: 'Free Trials Scheduled Today', value: '0', icon: Calendar, color: 'from-blue-500 to-blue-600' },
+    { label: 'Pending Follow-ups', value: '0', icon: Clock, color: 'from-orange-500 to-orange-600' },
+    { label: 'Successful Voicemails', value: '0', icon: Phone, color: 'from-green-500 to-green-600' },
+    { label: 'Total Inactive Accounts', value: '0', icon: Users, color: 'from-purple-500 to-purple-600' },
   ];
 
-  const recentActivity = [
-    { name: 'Carissa Flores', action: 'Trial Scheduled', time: '2 hours ago', status: 'completed' },
-    { name: 'Stacey Ritchie', action: 'Enrollment Complete', time: '3 hours ago', status: 'completed' },
-    { name: 'Kari Hooley', action: 'Awaiting Response', time: '4 hours ago', status: 'pending' },
-    { name: 'Jenna Mullen', action: 'Email Sent', time: '5 hours ago', status: 'pending' },
-  ];
+  // TODO: Replace with API calls to fetch recent activity
+  const recentActivity: Array<{
+    name: string;
+    action: string;
+    time: string;
+    status: 'completed' | 'pending';
+  }> = [];
 
   return (
     <div className="p-8">
@@ -56,58 +58,38 @@ export const Dashboard: React.FC = () => {
         {/* Campaign Performance */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <h3 className="text-lg font-semibold text-slate-800 mb-4">Campaign Performance</h3>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="bg-green-100 p-2 rounded-lg">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                </div>
-                <div>
-                  <p className="font-medium text-slate-800">Voicemail Success Rate</p>
-                  <p className="text-sm text-slate-600">311 out of 362 calls</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-2xl font-bold text-green-600">85.9%</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="bg-blue-100 p-2 rounded-lg">
-                  <Target className="h-5 w-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="font-medium text-slate-800">Re-engagement Rate</p>
-                  <p className="text-sm text-slate-600">From drop report outreach</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-2xl font-bold text-blue-600">12.3%</p>
-              </div>
-            </div>
+          <div className="text-center py-8">
+            <p className="text-slate-500">No campaign data available</p>
+            <p className="text-sm text-slate-400 mt-2">Start a campaign to see performance metrics</p>
           </div>
         </div>
 
         {/* Recent Activity */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <h3 className="text-lg font-semibold text-slate-800 mb-4">Recent Activity</h3>
-          <div className="space-y-3">
-            {recentActivity.map((activity, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <div className={`w-2 h-2 rounded-full ${
-                    activity.status === 'completed' ? 'bg-green-500' : 'bg-orange-500'
-                  }`}></div>
-                  <div>
-                    <p className="font-medium text-slate-800">{activity.name}</p>
-                    <p className="text-sm text-slate-600">{activity.action}</p>
+          {recentActivity.length > 0 ? (
+            <div className="space-y-3">
+              {recentActivity.map((activity, index) => (
+                <div key={index} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-2 h-2 rounded-full ${
+                      activity.status === 'completed' ? 'bg-green-500' : 'bg-orange-500'
+                    }`}></div>
+                    <div>
+                      <p className="font-medium text-slate-800">{activity.name}</p>
+                      <p className="text-sm text-slate-600">{activity.action}</p>
+                    </div>
                   </div>
+                  <p className="text-sm text-slate-500">{activity.time}</p>
                 </div>
-                <p className="text-sm text-slate-500">{activity.time}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-slate-500">No recent activity</p>
+              <p className="text-sm text-slate-400 mt-2">Activity will appear here as you work with leads</p>
+            </div>
+          )}
         </div>
       </div>
 

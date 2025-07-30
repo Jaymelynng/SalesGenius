@@ -15,64 +15,28 @@ export const DropReport: React.FC = () => {
   const [dateRange, setDateRange] = useState('aug-2023-aug-2024');
   const [showSiblings, setShowSiblings] = useState(false);
 
+  // TODO: Replace with API calls to fetch drop report data
   const dropData = {
-    totalInactive: 352,
-    inactiveWithSiblings: 174,
-    reEngagementRate: 12.3,
-    successfulContacts: 43,
-    reEnrollments: 15
+    totalInactive: 0,
+    inactiveWithSiblings: 0,
+    reEngagementRate: 0,
+    successfulContacts: 0,
+    reEnrollments: 0
   };
 
-  const inactiveAccounts = [
-    {
-      id: 1,
-      family: 'Johnson Family',
-      student: 'Emma Johnson',
-      age: 8,
-      program: 'Girls Gymnastics',
-      dropDate: '2024-06-15',
-      reason: 'Summer break',
-      hasSiblings: true,
-      lastContact: '2024-08-20',
-      status: 'contacted'
-    },
-    {
-      id: 2,
-      family: 'Smith Family',
-      student: 'Jake Smith',
-      age: 6,
-      program: 'Ninja Training',
-      dropDate: '2024-05-20',
-      reason: 'Schedule conflict',
-      hasSiblings: false,
-      lastContact: '2024-08-19',
-      status: 'voicemail'
-    },
-    {
-      id: 3,
-      family: 'Davis Family',
-      student: 'Sophia Davis',
-      age: 7,
-      program: 'Tumbling',
-      dropDate: '2024-07-10',
-      reason: 'Cost concerns',
-      hasSiblings: true,
-      lastContact: '2024-08-21',
-      status: 'enrolled'
-    },
-    {
-      id: 4,
-      family: 'Wilson Family',
-      student: 'Liam Wilson',
-      age: 5,
-      program: 'Junior Gymnastics',
-      dropDate: '2024-04-30',
-      reason: 'Moved locations',
-      hasSiblings: false,
-      lastContact: null,
-      status: 'no-contact'
-    }
-  ];
+  // TODO: Replace with API calls to fetch inactive accounts
+  const inactiveAccounts: Array<{
+    id: number;
+    family: string;
+    student: string;
+    age: number;
+    program: string;
+    dropDate: string;
+    reason: string;
+    hasSiblings: boolean;
+    lastContact: string | null;
+    status: 'contacted' | 'voicemail' | 'enrolled' | 'no-contact';
+  }> = [];
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -200,63 +164,79 @@ export const DropReport: React.FC = () => {
           </p>
         </div>
         
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-slate-50 border-b border-slate-200">
-              <tr>
-                <th className="text-left p-4 font-semibold text-slate-700">Family</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Student</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Program</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Drop Date</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Reason</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Siblings</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Last Contact</th>
-                <th className="text-left p-4 font-semibold text-slate-700">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredAccounts.map((account) => (
-                <tr key={account.id} className="border-b border-slate-100 hover:bg-slate-50">
-                  <td className="p-4">
-                    <p className="font-medium text-slate-800">{account.family}</p>
-                  </td>
-                  <td className="p-4">
-                    <div>
-                      <p className="font-medium text-slate-800">{account.student}</p>
-                      <p className="text-sm text-slate-600">{account.age} years old</p>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <p className="text-slate-800">{account.program}</p>
-                  </td>
-                  <td className="p-4">
-                    <p className="text-slate-800">{account.dropDate}</p>
-                  </td>
-                  <td className="p-4">
-                    <p className="text-slate-600">{account.reason}</p>
-                  </td>
-                  <td className="p-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      account.hasSiblings 
-                        ? 'bg-blue-100 text-blue-800' 
-                        : 'bg-gray-100 text-gray-800'
-                    }`}>
-                      {account.hasSiblings ? 'Yes' : 'No'}
-                    </span>
-                  </td>
-                  <td className="p-4">
-                    <p className="text-slate-600">{account.lastContact || 'Never'}</p>
-                  </td>
-                  <td className="p-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(account.status)}`}>
-                      {account.status.replace('-', ' ').toUpperCase()}
-                    </span>
-                  </td>
+        {filteredAccounts.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-slate-50 border-b border-slate-200">
+                <tr>
+                  <th className="text-left p-4 font-semibold text-slate-700">Family</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Student</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Program</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Drop Date</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Reason</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Siblings</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Last Contact</th>
+                  <th className="text-left p-4 font-semibold text-slate-700">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {filteredAccounts.map((account) => (
+                  <tr key={account.id} className="border-b border-slate-100 hover:bg-slate-50">
+                    <td className="p-4">
+                      <p className="font-medium text-slate-800">{account.family}</p>
+                    </td>
+                    <td className="p-4">
+                      <div>
+                        <p className="font-medium text-slate-800">{account.student}</p>
+                        <p className="text-sm text-slate-600">{account.age} years old</p>
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <p className="text-slate-800">{account.program}</p>
+                    </td>
+                    <td className="p-4">
+                      <p className="text-slate-800">{account.dropDate}</p>
+                    </td>
+                    <td className="p-4">
+                      <p className="text-slate-600">{account.reason}</p>
+                    </td>
+                    <td className="p-4">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        account.hasSiblings 
+                          ? 'bg-blue-100 text-blue-800' 
+                          : 'bg-gray-100 text-gray-800'
+                      }`}>
+                        {account.hasSiblings ? 'Yes' : 'No'}
+                      </span>
+                    </td>
+                    <td className="p-4">
+                      <p className="text-slate-600">{account.lastContact || 'Never'}</p>
+                    </td>
+                    <td className="p-4">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(account.status)}`}>
+                        {account.status.replace('-', ' ').toUpperCase()}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <TrendingDown className="h-12 w-12 text-slate-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-slate-600 mb-2">No inactive accounts found</h3>
+            <p className="text-slate-500 mb-4">
+              {showSiblings 
+                ? 'No inactive accounts with active siblings in the selected date range' 
+                : 'No inactive accounts found in the selected date range'}
+            </p>
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2 mx-auto">
+              <RefreshCw className="h-4 w-4" />
+              Refresh Report
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Re-engagement Campaign */}

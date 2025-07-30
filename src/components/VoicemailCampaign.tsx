@@ -17,29 +17,31 @@ export const VoicemailCampaign: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentScript, setCurrentScript] = useState('reengagement');
 
+  // TODO: Replace with API calls to fetch campaign statistics
   const campaignStats = {
-    totalCalls: 362,
-    successfulVoicemails: 311,
-    failedVoicemails: 51,
-    successRate: 85.91,
-    inactiveAccounts: 352,
-    responses: 43,
-    reEnrollments: 15
+    totalCalls: 0,
+    successfulVoicemails: 0,
+    failedVoicemails: 0,
+    successRate: 0,
+    inactiveAccounts: 0,
+    responses: 0,
+    reEnrollments: 0
   };
 
   const scripts = {
-    reengagement: `Hi, it's Jocelyn from Oasis Gymnastics. I'm reaching out because you were previously enrolled with us, and I have some exciting updates to share. We're under new leadership and have made some fantastic improvements that I think you'll love. Plus, we've introduced a new Membership Program offering perks like up to 50% off open gyms and Kids' Nights Out. I'd love to invite you to a free trial class, either in the program you were previously enrolled in or perhaps try something new. We're reopening tumbling and open gyms, and we're also offering programs in gymnastics and ninja. Keep an eye out for a follow-up email with all our program details. You can easily register through our customer portal or sign up for a free trial. If you have any questions, just give us a call. We'd love to welcome you back to Oasis Gymnastics!`,
-    siblings: `Hi, this is Jocelyn from Oasis Gymnastics. I noticed that while your family still has active members with us, one of your children hasn't been enrolled recently. We have some exciting new programs and improvements that I'd love to share with you. As a current family, you're eligible for our special member rates and our new Membership Program benefits. I'd love to invite your child back for a free trial class to see all the improvements we've made. You can register through your existing customer portal or give us a call. We'd love to have your whole family active with us again!`,
-    newLeads: `Hi, this is [Your Name] from Oasis Gymnastics. Thank you for your interest in our programs! I wanted to personally reach out to let you know about our current offerings and help answer any questions you might have. We're currently offering free trial classes for new families, and I'd love to help you find the perfect program for your child. You can schedule online through our customer portal, or feel free to call us directly. We're excited about the possibility of welcoming your family to Oasis Gymnastics!`
+    reengagement: `Hi, this is [Your Name] from [Gym Name]. I'm reaching out because you were previously enrolled with us, and I have some exciting updates to share. We're under new leadership and have made some fantastic improvements that I think you'll love. Plus, we've introduced a new Membership Program offering perks like up to 50% off open gyms and Kids' Nights Out. I'd love to invite you to a free trial class, either in the program you were previously enrolled in or perhaps try something new. We're reopening tumbling and open gyms, and we're also offering programs in gymnastics and ninja. Keep an eye out for a follow-up email with all our program details. You can easily register through our customer portal or sign up for a free trial. If you have any questions, just give us a call. We'd love to welcome you back!`,
+    siblings: `Hi, this is [Your Name] from [Gym Name]. I noticed that while your family still has active members with us, one of your children hasn't been enrolled recently. We have some exciting new programs and improvements that I'd love to share with you. As a current family, you're eligible for our special member rates and our new Membership Program benefits. I'd love to invite your child back for a free trial class to see all the improvements we've made. You can register through your existing customer portal or give us a call. We'd love to have your whole family active with us again!`,
+    newLeads: `Hi, this is [Your Name] from [Gym Name]. Thank you for your interest in our programs! I wanted to personally reach out to let you know about our current offerings and help answer any questions you might have. We're currently offering free trial classes for new families, and I'd love to help you find the perfect program for your child. You can schedule online through our customer portal, or feel free to call us directly. We're excited about the possibility of welcoming your family to our gym!`
   };
 
-  const recentCalls = [
-    { name: 'Johnson Family', phone: '(555) 123-4567', status: 'success', response: 'trial-scheduled', time: '10:30 AM' },
-    { name: 'Smith Family', phone: '(555) 234-5678', status: 'success', response: 'pending', time: '10:45 AM' },
-    { name: 'Davis Family', phone: '(555) 345-6789', status: 'failed', response: 'full-mailbox', time: '11:00 AM' },
-    { name: 'Wilson Family', phone: '(555) 456-7890', status: 'success', response: 'enrolled', time: '11:15 AM' },
-    { name: 'Brown Family', phone: '(555) 567-8901', status: 'success', response: 'callback-requested', time: '11:30 AM' },
-  ];
+  // TODO: Replace with API calls to fetch recent call activity
+  const recentCalls: Array<{
+    name: string;
+    phone: string;
+    status: 'success' | 'failed';
+    response: string;
+    time: string;
+  }> = [];
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -90,14 +92,16 @@ export const VoicemailCampaign: React.FC = () => {
               <Target className="h-6 w-6 text-green-600" />
             </div>
           </div>
-          <div className="mt-2">
-            <div className="bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-green-500 h-2 rounded-full"
-                style={{ width: `${campaignStats.successRate}%` }}
-              ></div>
+          {campaignStats.totalCalls > 0 && (
+            <div className="mt-2">
+              <div className="bg-gray-200 rounded-full h-2">
+                <div 
+                  className="bg-green-500 h-2 rounded-full"
+                  style={{ width: `${campaignStats.successRate}%` }}
+                ></div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
@@ -201,52 +205,79 @@ export const VoicemailCampaign: React.FC = () => {
             </button>
           </div>
           
-          <div className="space-y-3">
-            {recentCalls.map((call, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  {call.status === 'success' ? (
-                    <CheckCircle className="h-5 w-5 text-green-500" />
-                  ) : (
-                    <XCircle className="h-5 w-5 text-red-500" />
-                  )}
-                  <div>
-                    <p className="font-medium text-slate-800">{call.name}</p>
-                    <p className="text-sm text-slate-600">{call.phone}</p>
+          {recentCalls.length > 0 ? (
+            <div className="space-y-3">
+              {recentCalls.map((call, index) => (
+                <div key={index} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    {call.status === 'success' ? (
+                      <CheckCircle className="h-5 w-5 text-green-500" />
+                    ) : (
+                      <XCircle className="h-5 w-5 text-red-500" />
+                    )}
+                    <div>
+                      <p className="font-medium text-slate-800">{call.name}</p>
+                      <p className="text-sm text-slate-600">{call.phone}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getResponseColor(call.response)}`}>
+                      {call.response.replace('-', ' ').toUpperCase()}
+                    </span>
+                    <p className="text-sm text-slate-500 mt-1">{call.time}</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getResponseColor(call.response)}`}>
-                    {call.response.replace('-', ' ').toUpperCase()}
-                  </span>
-                  <p className="text-sm text-slate-500 mt-1">{call.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <Phone className="h-12 w-12 text-slate-300 mx-auto mb-4" />
+              <h4 className="text-lg font-medium text-slate-600 mb-2">No recent activity</h4>
+              <p className="text-slate-500 mb-4">Start a voicemail campaign to see call results here</p>
+              <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center gap-2 mx-auto">
+                <Phone className="h-4 w-4" />
+                Start Campaign
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Campaign Results Summary */}
       <div className="mt-8 bg-gradient-to-r from-green-500 to-blue-600 rounded-xl p-6 text-white">
         <h3 className="text-xl font-semibold mb-4">Campaign Performance Summary</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center">
-            <div className="text-3xl font-bold mb-2">{campaignStats.successfulVoicemails}</div>
-            <div className="text-sm opacity-90">Successful Voicemails</div>
-            <div className="text-xs opacity-75">Out of {campaignStats.totalCalls} calls</div>
+        {campaignStats.totalCalls > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="text-3xl font-bold mb-2">{campaignStats.successfulVoicemails}</div>
+              <div className="text-sm opacity-90">Successful Voicemails</div>
+              <div className="text-xs opacity-75">Out of {campaignStats.totalCalls} calls</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold mb-2">{campaignStats.responses}</div>
+              <div className="text-sm opacity-90">Active Responses</div>
+              <div className="text-xs opacity-75">From voicemail recipients</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold mb-2">
+                {campaignStats.responses > 0 
+                  ? ((campaignStats.reEnrollments / campaignStats.responses) * 100).toFixed(1)
+                  : '0'
+                }%
+              </div>
+              <div className="text-sm opacity-90">Conversion Rate</div>
+              <div className="text-xs opacity-75">Responses to enrollments</div>
+            </div>
           </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold mb-2">{campaignStats.responses}</div>
-            <div className="text-sm opacity-90">Active Responses</div>
-            <div className="text-xs opacity-75">From voicemail recipients</div>
+        ) : (
+          <div className="text-center py-8">
+            <p className="text-lg opacity-90 mb-2">Ready to start your first campaign?</p>
+            <p className="text-sm opacity-75 mb-4">Launch a voicemail campaign to begin tracking performance metrics</p>
+            <button className="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3 hover:bg-white/30 transition-colors">
+              Get Started
+            </button>
           </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold mb-2">{((campaignStats.reEnrollments / campaignStats.responses) * 100).toFixed(1)}%</div>
-            <div className="text-sm opacity-90">Conversion Rate</div>
-            <div className="text-xs opacity-75">Responses to enrollments</div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
