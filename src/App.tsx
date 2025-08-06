@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TrialConversionTracker } from './components/TrialConversionTracker';
 import { AutomatedScripts } from './components/AutomatedScripts';
 import { AutomatedAnalytics } from './components/AutomatedAnalytics';
+import { EmailCampaignTracker } from './components/EmailCampaignTracker';
 import { Sidebar } from './components/Sidebar';
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
         return <AutomatedScripts />;
       case 'analytics':
         return <AutomatedAnalytics />;
+      case 'email-campaigns':
+        return <EmailCampaignTracker />;
       default:
         return <TrialConversionTracker />;
     }

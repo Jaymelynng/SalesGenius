@@ -91,3 +91,74 @@ export interface Analytics {
   topPerformingScripts: Script[];
   topPerformingEmails: EmailTemplate[];
 }
+
+export interface EmailCampaign {
+  id: string;
+  name: string;
+  type: 'one-time' | 'automated' | 'drip-sequence';
+  sentDate: Date;
+  totalSent: number;
+  openRate: number;
+  totalOpens: number;
+  clickRate: number;
+  totalClicks: number;
+  conversionRate: number;
+  totalConversions: number;
+  bounceRate: number;
+  unsubscribeRate: number;
+  status: 'draft' | 'sent' | 'scheduled' | 'paused';
+  subject: string;
+  previewText?: string;
+  tags: string[];
+}
+
+export interface EmailEngagement {
+  id: string;
+  leadId: string;
+  campaignId: string;
+  email: string;
+  fullName: string;
+  deliverabilityStatus: 'delivered' | 'bounced' | 'spam' | 'unsubscribed';
+  lastOpened: Date | null;
+  totalOpens: number;
+  totalClicks: number;
+  clickedLinks: ClickedLink[];
+  region?: string;
+  city?: string;
+  emailClient?: string;
+  isEnrolled: boolean;
+  enrollmentDate?: Date;
+  enrollmentValue?: number;
+  leadSource: string;
+  conversionStage: string;
+  lastActivity: Date;
+  tags: string[];
+}
+
+export interface ClickedLink {
+  url: string;
+  linkText: string;
+  clickCount: number;
+  firstClicked: Date;
+  lastClicked: Date;
+  linkType: 'cta' | 'navigation' | 'social' | 'unsubscribe' | 'other';
+}
+
+export interface CampaignPerformance {
+  campaignId: string;
+  campaignName: string;
+  totalEngaged: number;
+  highEngagement: number; // 5+ clicks
+  mediumEngagement: number; // 2-4 clicks
+  lowEngagement: number; // 1 click
+  enrollmentRate: number;
+  totalEnrollments: number;
+  revenueGenerated: number;
+  averageClicksPerLead: number;
+  topClickedLinks: Array<{
+    url: string;
+    linkText: string;
+    totalClicks: number;
+    uniqueClickers: number;
+  }>;
+}

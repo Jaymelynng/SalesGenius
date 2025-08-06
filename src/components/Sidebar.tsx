@@ -3,6 +3,7 @@ import {
   Target,
   FileText, 
   BarChart3,
+  Mail,
   Star,
   Zap
 } from 'lucide-react';
@@ -16,6 +17,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
   const menuItems = [
     { id: 'tracker', label: 'Trial Conversion Tracker', icon: Target },
     { id: 'scripts', label: 'Automated Scripts & Emails', icon: FileText },
+    { id: 'email-campaigns', label: 'Email Campaign Tracker', icon: Mail },
     { id: 'analytics', label: 'Performance Analytics', icon: BarChart3 },
   ];
 
