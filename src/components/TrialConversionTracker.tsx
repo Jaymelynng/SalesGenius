@@ -23,114 +23,24 @@ export const TrialConversionTracker: React.FC = () => {
 
   // TODO: Replace with API calls
   useEffect(() => {
-    // Fetch leads, conversion steps, and funnel data
-    setConversionSteps([
-      {
-        id: '1',
-        name: 'Initial Contact',
-        description: 'First touchpoint with potential customer',
-        order: 1,
-        automatedActions: [
-          {
-            id: '1a',
-            type: 'email',
-            trigger: 'immediate',
-            template: 'welcome-email',
-            subject: 'Welcome to [Gym Name] - Let\'s Get Started!',
-            content: 'Thank you for your interest in our programs...'
-          }
-        ],
-        requiredFields: ['name', 'email', 'phone', 'studentName', 'studentAge'],
-        timeframe: 24,
-        successCriteria: ['Contact information verified', 'Initial interest confirmed']
-      },
-      {
-        id: '2',
-        name: 'Trial Booking',
-        description: 'Schedule and confirm trial class',
-        order: 2,
-        automatedActions: [
-          {
-            id: '2a',
-            type: 'email',
-            trigger: 'delay',
-            delay: 2,
-            template: 'trial-booking-reminder',
-            subject: 'Ready to Schedule Your Free Trial?',
-            content: 'We\'d love to have [Student Name] try a class...'
-          }
-        ],
-        requiredFields: ['trialDate', 'programType'],
-        timeframe: 72,
-        successCriteria: ['Trial date scheduled', 'Confirmation sent']
-      },
-      {
-        id: '3',
-        name: 'Trial Attendance',
-        description: 'Student attends trial class',
-        order: 3,
-        automatedActions: [
-          {
-            id: '3a',
-            type: 'call-reminder',
-            trigger: 'delay',
-            delay: 24,
-            template: 'trial-reminder-call',
-            content: 'Reminder call script for trial attendance'
-          }
-        ],
-        requiredFields: ['attendanceConfirmed'],
-        timeframe: 24,
-        successCriteria: ['Student attended trial', 'Feedback collected']
-      },
-      {
-        id: '4',
-        name: 'Post-Trial Follow-up',
-        description: 'Follow up after trial class',
-        order: 4,
-        automatedActions: [
-          {
-            id: '4a',
-            type: 'email',
-            trigger: 'delay',
-            delay: 2,
-            template: 'post-trial-followup',
-            subject: 'How did [Student Name] enjoy the trial?',
-            content: 'We hope [Student Name] had a great time...'
-          }
-        ],
-        requiredFields: ['trialFeedback'],
-        timeframe: 48,
-        successCriteria: ['Feedback received', 'Interest level assessed']
-      },
-      {
-        id: '5',
-        name: 'Enrollment Conversion',
-        description: 'Convert trial to paid enrollment',
-        order: 5,
-        automatedActions: [
-          {
-            id: '5a',
-            type: 'call-reminder',
-            trigger: 'delay',
-            delay: 24,
-            template: 'conversion-call',
-            content: 'Enrollment conversation script'
-          }
-        ],
-        requiredFields: ['enrollmentDecision'],
-        timeframe: 120,
-        successCriteria: ['Enrollment completed', 'Payment processed']
+    async function load() {
+      try {
+        const [leadsRes, stepsRes, funnelRes] = await Promise.all([
+          fetch('/api/leads'),
+          fetch('/api/conversion-steps'),
+          fetch('/api/funnel')
+        ]);
+        const [leadsData, stepsData, funnelData] = await Promise.all([
+          leadsRes.json(), stepsRes.json(), funnelRes.json()
+        ]);
+        setLeads(leadsData);
+        setConversionSteps(stepsData);
+        setFunnelData(funnelData);
+      } catch (e) {
+        console.error(e);
       }
-    ]);
-
-    setFunnelData([
-      { stage: 'Initial Contact', count: 0, percentage: 100, conversionRate: 0, averageTime: 0, dropOffRate: 0 },
-      { stage: 'Trial Booking', count: 0, percentage: 0, conversionRate: 0, averageTime: 0, dropOffRate: 0 },
-      { stage: 'Trial Attendance', count: 0, percentage: 0, conversionRate: 0, averageTime: 0, dropOffRate: 0 },
-      { stage: 'Post-Trial Follow-up', count: 0, percentage: 0, conversionRate: 0, averageTime: 0, dropOffRate: 0 },
-      { stage: 'Enrollment Conversion', count: 0, percentage: 0, conversionRate: 0, averageTime: 0, dropOffRate: 0 }
-    ]);
+    }
+    load();
   }, []);
 
   const getStageColor = (stage: string) => {
@@ -367,9 +277,9 @@ export const TrialConversionTracker: React.FC = () => {
                       </div>
                     </td>
                     <td className="p-4">
-                      <p className="text-sm text-slate-600">
+                                             <p className="text-sm text-slate-600">
                         {lead.nextFollowUpDate ? 
-                          new Date(lead.nextFollowUpDate).toLocaleDateString() : 
+                          new Date(lead.nextFollowUpDate as unknown as string).toLocaleDateString() : 
                           'Not scheduled'
                         }
                       </p>
