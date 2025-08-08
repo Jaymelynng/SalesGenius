@@ -5,7 +5,9 @@ import {
   BarChart3,
   Mail,
   Star,
-  Zap
+  Zap,
+  LayoutGrid,
+  Users
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -15,6 +17,8 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
   const menuItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutGrid },
+    { id: 'leads', label: 'Leads', icon: Users },
     { id: 'tracker', label: 'Trial Conversion Tracker', icon: Target },
     { id: 'scripts', label: 'Automated Scripts & Emails', icon: FileText },
     { id: 'email-campaigns', label: 'Email Campaign Tracker', icon: Mail },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Users, 
   Phone, 
@@ -11,15 +11,31 @@ import {
 } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
-  // TODO: Replace with API calls to fetch real data
-  const stats = [
+  const [stats, setStats] = useState([
     { label: 'Free Trials Scheduled Today', value: '0', icon: Calendar, color: 'from-blue-500 to-blue-600' },
     { label: 'Pending Follow-ups', value: '0', icon: Clock, color: 'from-orange-500 to-orange-600' },
     { label: 'Successful Voicemails', value: '0', icon: Phone, color: 'from-green-500 to-green-600' },
     { label: 'Total Inactive Accounts', value: '0', icon: Users, color: 'from-purple-500 to-purple-600' },
-  ];
+  ]);
 
-  // TODO: Replace with API calls to fetch recent activity
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch('/api/stats');
+        const s = await res.json();
+        setStats([
+          { label: 'Free Trials Scheduled Today', value: String(s.freeTrialsToday ?? 0), icon: Calendar, color: 'from-blue-500 to-blue-600' },
+          { label: 'Pending Follow-ups', value: String(s.pendingFollowUps ?? 0), icon: Clock, color: 'from-orange-500 to-orange-600' },
+          { label: 'Successful Voicemails', value: String(s.successfulVoicemails ?? 0), icon: Phone, color: 'from-green-500 to-green-600' },
+          { label: 'Total Inactive Accounts', value: String(s.totalInactiveAccounts ?? 0), icon: Users, color: 'from-purple-500 to-purple-600' },
+        ]);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    load();
+  }, []);
+
   const recentActivity: Array<{
     name: string;
     action: string;

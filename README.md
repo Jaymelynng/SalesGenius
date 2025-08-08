@@ -145,3 +145,16 @@ This project follows standard React development practices with TypeScript for ty
 ---
 
 *Sales Genius Dashboard - Empowering systematic lead re-engagement for Oasis Gymnastics*
+
+## Full-stack dev
+
+- Install deps: `npm install`
+- Start both servers: `npm run dev:all`
+- Client runs at `http://localhost:5173` and proxies API to `http://localhost:4000`
+
+API endpoints:
+- `GET /api/health`
+- `GET/POST/PUT/DELETE /api/leads`
+- `GET /api/conversion-steps`
+- `GET /api/funnel`
+- `GET /api/stats`

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Search, 
   Filter, 
@@ -9,27 +9,54 @@ import {
   CheckCircle,
   Clock,
   AlertCircle,
-  User
+  User,
+  Users
 } from 'lucide-react';
+
+interface LeadRow {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  student: string;
+  age: number;
+  action: string;
+  details: string;
+  status: 'completed' | 'pending' | 'needs-contact' | 'new';
+  date: string;
+  priority: 'high' | 'medium' | 'low';
+}
 
 export const LeadManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [leads, setLeads] = useState<LeadRow[]>([]);
 
-  // TODO: Replace with API calls to fetch leads data
-  const leads: Array<{
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    student: string;
-    age: number;
-    action: string;
-    details: string;
-    status: 'completed' | 'pending' | 'needs-contact' | 'new';
-    date: string;
-    priority: 'high' | 'medium' | 'low';
-  }> = [];
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch('/api/leads');
+        const data = await res.json();
+        const mapped: LeadRow[] = data.map((l: any) => ({
+          id: l.id,
+          name: l.name,
+          email: l.email,
+          phone: l.phone,
+          student: l.studentName,
+          age: l.studentAge,
+          action: l.stage === 'trial-booking' ? 'Trial Scheduled' : l.stage === 'follow-up' ? 'Follow-up' : 'Initial Contact',
+          details: l.notes?.[0] || '—',
+          status: l.status === 'enrolled' ? 'completed' : l.status === 'contacted' ? 'pending' : l.status === 'lost' ? 'needs-contact' : 'new',
+          date: new Date(l.updatedAt).toLocaleDateString(),
+          priority: l.conversionProbability > 70 ? 'high' : l.conversionProbability > 30 ? 'medium' : 'low'
+        }));
+        setLeads(mapped);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    load();
+  }, []);
 
   const getStatusColor = (status: string) => {
     switch (status) {

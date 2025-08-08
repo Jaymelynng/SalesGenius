@@ -4,12 +4,18 @@ import { AutomatedScripts } from './components/AutomatedScripts';
 import { AutomatedAnalytics } from './components/AutomatedAnalytics';
 import { EmailCampaignTracker } from './components/EmailCampaignTracker';
 import { Sidebar } from './components/Sidebar';
+import { Dashboard } from './components/Dashboard';
+import { LeadManagement } from './components/LeadManagement';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('tracker');
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'dashboard':
+        return <Dashboard />;
+      case 'leads':
+        return <LeadManagement />;
       case 'tracker':
         return <TrialConversionTracker />;
       case 'scripts':
@@ -19,7 +25,7 @@ function App() {
       case 'email-campaigns':
         return <EmailCampaignTracker />;
       default:
-        return <TrialConversionTracker />;
+        return <Dashboard />;
     }
   };
 
